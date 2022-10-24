@@ -12,23 +12,34 @@ function registerUser($username, $email, $password){
     $user= array[
         'fullname' => $username,
         'email'=> $email,
-        'password' => $password
-        
-        };
+        'password' => $password        
+    ];
     //save data into the file
+    if (checkUserExist(email)){
+        echo "User Already Exists";
+    }else{
+        $detail = fopen($folder, "ra+"); 
+        fputincsv($detail, $user);
+         fclose($detail);
+    
+    // echo "OKAY";
+    echo "User Successfully registered";
+    }
+}
+    
+   
+    
+//now check if the user exist
+function checkUserExist(email){
     $folder= "../storage/users.csv";
     $detail = fopen($folder, "ra+"); 
     while (!feof($detail)){
         $line = fgetcsv($detail);
-        if ($line1==$email){
+        if ($line[1] == $email){
             return true;
-    }
-    fwrite($detail, "$username, $email, $password \n");
-    
-    fclose($detail);
-    
-    // echo "OKAY";
-    echo "User Successfully registered";
+   }
+ }
+        return false;   
 }
 ?>
 
